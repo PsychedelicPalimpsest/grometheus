@@ -34,14 +34,13 @@ $(ROOTFS_BUILD_DIR):
 	mkdir -p $(ROOTFS_BUILD_DIR)
 	cp -r rootfs/* $(ROOTFS_BUILD_DIR)
 
-	chmod +x rootfs/init
+	chmod +x $(ROOTFS_BUILD_DIR)/init
 
 $(ROOTFS_BUILD): $(BUSYBOX_ROOTFS) $(ROOTFS_BUILD)
 	cd $(ROOTFS_BUILD_DIR) ; find . | cpio -H newc -o | gzip > ../initramfs.cpio.gz
 
 
 $(LINUX):
-
 	@-ln linux.config deps/linux/.config || true
 	$(MAKE) -C "$(LINUX_DIR)" 
 	
@@ -55,4 +54,4 @@ $(LINUX):
 
 clean:
 	#$(MAKE) -C "$(BUSYBOX_DIR)" clean
-	rm -rf $(ROOTFS_BUILD_DIR) $(LINUX)
+	rm -rf $(ROOTFS_BUILD_DIR) $(ROOTFS_BUILD) $(LINUX)
