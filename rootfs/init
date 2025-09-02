@@ -1,0 +1,5 @@
+#!/bin/sh
+echo "Hello from initramfs!"
+mount -t proc none /proc
+mount -t sysfs none /sys
+exec sh
