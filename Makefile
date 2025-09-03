@@ -34,6 +34,9 @@ $(BUSYBOX_ROOTFS): $(BUSYBOX) $(ROOTFS_BUILD_DIR)
 $(ROOTFS_BUILD_DIR):
 	mkdir -p $(ROOTFS_BUILD_DIR)
 	cp -r rootfs/* $(ROOTFS_BUILD_DIR)
+
+	rm $(ROOTFS_BUILD_DIR)/README.md
+	cd $(ROOTFS_BUILD_DIR) && rm $$(find . -name .gitkeep)
 	chmod +x $(ROOTFS_BUILD_DIR)/init
 
 $(ROOTFS_BUILD): $(BUSYBOX_ROOTFS)
