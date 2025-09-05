@@ -52,10 +52,23 @@ $(LINUX):
 linux_config:
 	$(MAKE) -C "$(LINUX_DIR)" menuconfig ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE)
 	cp "$(LINUX_DIR)"/.config linux.config
+
+	rm $(LINUX)
+
 busy_config:
 	$(MAKE) -C "$(BUSYBOX_DIR)" menuconfig
 	cat "$(BUSYBOX_DIR)/.config" > busybox.config
 
+	$(MAKE) -C "$(BUSYBOX_DIR)" clean
+
+
+build/boot.img: .ROOTFS $(LINUX) 
+	abootimg --create build/boot.img \
+		-f bootimg.cfg \
+		-k $(LINUX) \
+		-r build/initramfs.cpio.gz
+
+	mkbootimg --kernel Image 
 
 
 clean:

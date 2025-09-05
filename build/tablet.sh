@@ -1,9 +1,11 @@
-qemu-system-x86_64 \
-  -kernel bzImage \
+qemu-system-aarch64 \
+  -machine virt,virtualization=on \
+  -cpu cortex-a57 \
+  -m 1024 \
+  -kernel Image \
   -initrd initramfs.cpio.gz \
-  -append "console=ttyS0 console=tty0" \
-  -serial mon:stdio \
+  -append "init=/init rdinit=/init" \
+  -device virtio-gpu-pci \
   -device usb-ehci \
-  -device usb-tablet \
-  -enable-kvm \
-  -cpu host
+  -display gtk,gl=on \
+  -accel tcg,thread=multi
